@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2021/12/14 20:57:43 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/15 18:10:52 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,12 @@ t_map	get_relief(char **argv)
 	y = 0;
 	fd = open(argv[1], O_RDONLY);
 	line = get_next_line(fd);
-	//printf("GOTCHA\n");
-	//problems
 	while (y < map.y_max)
 	{
-		map.cartography[y] = malloc(sizeof(t_relief) * map.x_max);
+		map.cartography[y] = malloc(sizeof(t_relief) * (map.x_max + 1));
+		//hier hat eine + 1 gefehlt aber warum - auf jeden Fall für '\0'
+		//printf("map[y]: %p\n", map.cartography[y]);
+		//printf("x_max: %d\n", map.x_max);
 		set_values(y, line, &map);
 		free(line);
 		line = get_next_line(fd);

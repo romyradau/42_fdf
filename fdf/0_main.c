@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2021/12/14 21:04:13 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/15 18:47:58 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,19 @@ int	main(int argc, char **argv)
 			//printf("X: %d ",map.cartography[i][j].x);
 			//printf("Y: %d ",map.cartography[i][j].y);
 			if (map.cartography[i][j].z > 0)
+			{
+				
 				printf("%d ",map.cartography[i][j].z);
+				//printf("%d ",map.cartography[i][j].color);
+			}
 			else
+			{
 				printf(" %d ",map.cartography[i][j].z);
-			
+				//printf("%d ",map.cartography[i][j].color);
+			}
+			if (map.cartography[i][j].color != 0xffffff)
+				printf("%d ",map.cartography[i][j].color);
+
 			//printf("C: %d	",map.cartography[i][j].color);
 			j++;	
 		}
@@ -52,7 +61,6 @@ int	main(int argc, char **argv)
 		printf("\n");
 	}
 	mlx = mlx_init();
-	printf("whree are u\n");
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
 	img.img = mlx_new_image(mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, 

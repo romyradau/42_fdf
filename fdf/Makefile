@@ -6,13 +6,13 @@
 #    By: coder <coder@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2021/12/14 20:59:01 by coder            ###   ########.fr        #
+#    Updated: 2021/12/15 17:59:19 by coder            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
-MEM = -fsanitize=address
+#MEM = -fsanitize=address -g
 NAME = fdf
 SRC = 0_main.c 1_input.c
 LIBFT = libft/libft.a
@@ -30,7 +30,7 @@ all : $(NAME)
 #	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx -O3 -c $< -o $@
 
 $(NAME) : $(SRC) $(LIBFT)
-	$(CC) $(FLAGS) $(MEM) $(SRC) $(MLX) $(LIBFT) $(GNL) -o $(NAME)
+	$(CC) $(FLAGS) $(SRC) $(MLX) $(LIBFT) $(GNL) -o $(NAME)
 
 $(LIBFT) : 
 	make -C libft
