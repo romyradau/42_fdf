@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2021/12/15 18:47:58 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/16 20:13:04 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+/*
+ft_make_graphic(t_data *img, t_map *map)
+{
+	while ()
+	{
+		my_mlx_pixel_put(img, x, y, color);
+		i
+	}
+}
+*/
 int	main(int argc, char **argv)
 {
 	void	*mlx;
@@ -65,6 +75,7 @@ int	main(int argc, char **argv)
 	img.img = mlx_new_image(mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, 
 	&img.bit_per_pixel, &img.line_length, &img.endian);
+	//ft_make_graphic(&img, &map); // i bims die svenja
 	i = 0;
 	j = 0;
 	while (i < 100)
@@ -80,5 +91,5 @@ int	main(int argc, char **argv)
 	}
 	
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_loop(mlx); // need stuff to end function (free etc)
 }
