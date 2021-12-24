@@ -6,7 +6,7 @@
 #    By: coder <coder@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2021/12/16 21:05:57 by coder            ###   ########.fr        #
+#    Updated: 2021/12/24 16:49:54 by coder            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = gcc
 FLAGS = -Wall -Wextra -Werror
 #MEM = -fsanitize=address -g
 NAME = fdf
-SRC = 0_main.c 1_input.c
+SRC = 0_main.c 1_input.c 2_input_help.c 3_D_to2_D.c 4_rotations.c
 LIBFT = libft/libft.a
 GNL = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 MLX = -Lminilibx -lmlx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lz

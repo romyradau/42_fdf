@@ -6,11 +6,12 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2021/12/16 20:13:04 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/24 17:28:56 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <math.h>
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -20,16 +21,45 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-/*
-ft_make_graphic(t_data *img, t_map *map)
+void	draw_line(t_point start, t_point end, t_data *img)
+//had to remove the image pointer here
 {
-	while ()
+	t_point	diff;
+	t_point	direction;
+	t_point	cursor;
+	int			left_over[2];
+	
+	diff.x = abs(start.x - end.x);
+	diff.y = abs(start.y - end.y);
+	if (start.x < end.x)
+		direction.x = 1;
+	else
+		direction.x = -1;
+	if (start.y < end.y)
+		direction.y = 1;
+	else
+		direction.y = -1;
+	cursor = start;
+	left_over[0] = diff.x - diff.y;
+	
+	while (cursor.x != end.x || cursor.y != end.y) 
+	//is this for checking which wall will be hit first?
 	{
-		my_mlx_pixel_put(img, x, y, color);
-		i
+		my_mlx_pixel_put(img, cursor.x, cursor.y, 0xffffff);
+		left_over[1] = left_over[0] * 2;
+		if (left_over[1] > -diff.y)
+		{
+			left_over[0] -= diff.y;
+			cursor.x += direction.x;
+		}
+		if (left_over[1] < diff.x)
+		{
+			left_over[0] += diff.x;
+			cursor.y += direction.y;
+		}
 	}
 }
-*/
+
 int	main(int argc, char **argv)
 {
 	void	*mlx;
@@ -41,55 +71,79 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || no_valid_input(argv))
 		exit(0);
-	map = get_relief(argv);
-	i = 0;
+	map = get_relief(argv); 
+	/*i = 0;
 	while(i < map.y_max)
 	{
 		j = 0;
 		while (j < map.x_max)
 		{
-			//printf("X: %d ",map.cartography[i][j].x);
-			//printf("Y: %d ",map.cartography[i][j].y);
-			if (map.cartography[i][j].z > 0)
+			//printf("X: %d ",map.points[i][j].x);
+			//printf("Y: %d ",map.points[i][j].y);
+			if (map.points[i][j].z > 0)
 			{
 				
-				printf("%d ",map.cartography[i][j].z);
-				//printf("%d ",map.cartography[i][j].color);
+				printf("%d ",map.points[i][j].z);
+				//printf("%d ",map.points[i][j].color);
 			}
 			else
 			{
-				printf(" %d ",map.cartography[i][j].z);
-				//printf("%d ",map.cartography[i][j].color);
+				printf(" %d ",map.points[i][j].z);
+				//printf("%d ",map.points[i][j].color);
 			}
-			if (map.cartography[i][j].color != 0xffffff)
-				printf("%d ",map.cartography[i][j].color);
+			if (map.points[i][j].color != 0xffffff)
+				printf("%d ",map.points[i][j].color);
 
-			//printf("C: %d	",map.cartography[i][j].color);
+			//printf("C: %d	",map.points[i][j].color);
 			j++;	
 		}
 		i++;
 		printf("\n");
 	}
+	*/
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
 	img.img = mlx_new_image(mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, 
 	&img.bit_per_pixel, &img.line_length, &img.endian);
-	//ft_make_graphic(&img, &map); // i bims die svenja
+	/*
+	t_point	A = {
+		.x = 50, .y = 600
+	};
+	t_point	B = {
+		.x = 80, .y = 800
+	};
+	*/
+	//draw_line(A, B, &img);
+	//mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	i = 0;
-	j = 0;
-	while (i < 100)
+	while (i < map.y_max)
+	//can structs be NULL?
+	//but that aint right here, i mean i wann connect all the points 
+	//of the whole map
 	{
-		my_mlx_pixel_put(&img, 5 + i, 5 + i, 0x00A90BB19);
+		j = 0;
+		while (j < map.x_max)
+		{
+			if (j != map.x_max - 1)
+    		draw_line(
+        	dimensions(map.points[i][j], &map),
+        	dimensions(map.points[i][j + 1], &map),
+        	&img
+    		);
+
+			if (i != map.y_max - 1)
+    		draw_line(
+        	dimensions(map.points[i][j], &map),
+        	dimensions(map.points[i + 1][j], &map),
+        	&img
+    		);
+			j++;
+		}
 		i++;
-	}
-	while (i < 200)
-	{
-		my_mlx_pixel_put(&img, 5 + i, 5 + i + j, 0x0000FF00);
-		i++;
-		j += 5;
 	}
 	
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	//thats so wrong
 	mlx_loop(mlx); // need stuff to end function (free etc)
 }
+
