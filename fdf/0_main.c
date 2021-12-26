@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2021/12/24 17:28:56 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/26 13:20:34 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bit_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	
+	
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+ 	{
+		printf("%d %d\n", x, y);
+		dst = data->addr + (y * data->line_length + x * (data->bit_per_pixel / 8));
+		*(unsigned int*)dst = color;
+	}
 }
 
 void	draw_line(t_point start, t_point end, t_data *img)
@@ -45,7 +50,8 @@ void	draw_line(t_point start, t_point end, t_data *img)
 	while (cursor.x != end.x || cursor.y != end.y) 
 	//is this for checking which wall will be hit first?
 	{
-		my_mlx_pixel_put(img, cursor.x, cursor.y, 0xffffff);
+		my_mlx_pixel_put(img, cursor.x, cursor.y, cursor.color);
+		//add the actual map.color!!!!!
 		left_over[1] = left_over[0] * 2;
 		if (left_over[1] > -diff.y)
 		{
@@ -71,7 +77,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || no_valid_input(argv))
 		exit(0);
-	map = get_relief(argv); 
+	map = set_map(argv); 
 	/*i = 0;
 	while(i < map.y_max)
 	{
@@ -102,8 +108,9 @@ int	main(int argc, char **argv)
 	}
 	*/
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
+	mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Hello World!");
+	(void) mlx_win;
+	img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, 
 	&img.bit_per_pixel, &img.line_length, &img.endian);
 	/*
@@ -115,7 +122,6 @@ int	main(int argc, char **argv)
 	};
 	*/
 	//draw_line(A, B, &img);
-	//mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	i = 0;
 	while (i < map.y_max)
 	//can structs be NULL?
@@ -140,10 +146,11 @@ int	main(int argc, char **argv)
     		);
 			j++;
 		}
+		//does it go from one poin to the next and so on and so on?
+		//bu still how can the actual map be there than?
 		i++;
 	}
-	
-	//thats so wrong
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx); // need stuff to end function (free etc)
 }
 

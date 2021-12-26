@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2021/12/24 17:39:37 by coder            ###   ########.fr       */
+/*   Updated: 2021/12/26 11:46:46 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_map	get_map_dimensions(char **argv)
 	//i = 0;
 	x_line = get_next_line(fd);
 	x_values = ft_split(x_line, ' ');//double P auf NULL
+	ft_bzero(&map, sizeof(map));
 	map.x_max = x_coordinate(x_values);
 	map.y_max = 0;
 	//free
@@ -84,7 +85,7 @@ t_map	get_map_dimensions(char **argv)
 void	set_camera(t_map *map_ptr)
 {	
 	map_ptr->camera.zoom = min(WIDTH / map_ptr->x_max / 2, HEIGHT / map_ptr->y_max / 2);
-	map_ptr->camera.z_divisor = 1,
+	map_ptr->camera.z_divisor = 1;
 }
 
 //why don't in need malloc here?
@@ -112,7 +113,7 @@ void	set_values(int	y, char	*line, t_map *map_ptr)
 	free_split(split_ptr);
 }
 
-t_map	get_relief(char **argv)
+t_map	set_map(char **argv)
 {
 	int			y;
 	int			fd;
