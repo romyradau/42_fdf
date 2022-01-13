@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2022/01/09 13:24:47 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/13 19:24:31 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 		*(unsigned int *) dst = color;
 	}
 }
+//this function 
 
 void draw_line(t_point start, t_point end, t_data *img)
 // had to remove the image pointer here
@@ -63,37 +64,19 @@ void draw_line(t_point start, t_point end, t_data *img)
 		}
 	}
 }
+//watch a visual video for Bresenheim Algo!
 
-int main(int argc, char **argv)
+
+void allTheFuckingSame(t_fdf *fdf)
 {
-	t_fdf	fdf;
+	int x;
+	int y;
 
-	if (argc != 2 || no_valid_input(argv))
-		exit(0);
-	fdf.map = set_map(argv);
-
-	fdf.mlx = mlx_init();
-	fdf.mlx_win = mlx_new_window(fdf.mlx, WIDTH, HEIGHT, "Hello World!");
-	mlx_key_hook(fdf.mlx_win, change_camera_zdiv, &fdf);
-	
-	//it creates a pointer to the function
-	//can you call that function when you detect key pressing pls
-	fdf.img.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
-	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bit_per_pixel, &fdf.img.line_length, &fdf.img.endian);
-	rendering(&fdf);
-	mlx_loop(fdf.mlx); // need stuff to end function (free etc)
-}
-
-void	allTheFuckingSame(t_fdf *fdf)
-{
-	int	x;
-	int	y;
-	
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
-		while(x < WIDTH)
+		while (x < WIDTH)
 		{
 			my_mlx_pixel_put(&fdf->img, x, y, 0x00000);
 			x++;
@@ -102,7 +85,6 @@ void	allTheFuckingSame(t_fdf *fdf)
 	}
 }
 
-
 void rendering(t_fdf *fdf)
 {
 	int i;
@@ -110,22 +92,41 @@ void rendering(t_fdf *fdf)
 	i = 0;
 	j = 0;
 	allTheFuckingSame(fdf);
+	//first time encounter it blacks all even though it's already black
 	while (i < fdf->map.y_max)
 	{
 		j = 0;
 		while (j < fdf->map.x_max)
 		{
 			if (j != fdf->map.x_max - 1)
-				draw_line(
-					dimensions(fdf->map.points[i][j], &fdf->map),
-					dimensions(fdf->map.points[i][j + 1], &fdf->map), &fdf->img);
+				draw_line(dimensions(fdf->map.points[i][j], &fdf->map),
+				          dimensions(fdf->map.points[i][j + 1], &fdf->map), &fdf->img);
 			if (i != fdf->map.y_max - 1)
-				draw_line(
-					dimensions(fdf->map.points[i][j], &fdf->map),
-					dimensions(fdf->map.points[i + 1][j], &fdf->map), &fdf->img);
+				draw_line(dimensions(fdf->map.points[i][j], &fdf->map),
+				          dimensions(fdf->map.points[i + 1][j], &fdf->map), &fdf->img);
 			j++;
 		}
 		i++;
 	}
 	mlx_put_image_to_window(fdf->mlx, fdf->mlx_win, fdf->img.img, 0, 0);
+}
+
+int main(int argc, char **argv)
+{
+	t_fdf fdf;
+
+	if (argc != 2 || no_valid_input(argv))
+		exit(0);
+	fdf.map = set_map(argv);
+
+	fdf.mlx = mlx_init();
+	fdf.mlx_win = mlx_new_window(fdf.mlx, WIDTH, HEIGHT, "Hello World!");
+	mlx_key_hook(fdf.mlx_win, change_camera_zdiv, &fdf);
+	// it creates a pointer to the function
+	// must it be here, more down is not ok?
+	fdf.img.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
+	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bit_per_pixel,
+	                                 &fdf.img.line_length, &fdf.img.endian);
+	rendering(&fdf);
+	mlx_loop(fdf.mlx); // need stuff to end function (free etc)
 }

@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/09 13:25:45 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/13 19:34:29 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ t_map get_map_dimensions(char **argv)
 			exit(0);
 			// ok program ur gone 4eva
 		}
-		map.x_max = x_coordinate(x_values);
-		// do i need this line at all?
-		// hier muss ich mir noch überlegen wei ich mit error umgehe
+		//map.x_max = x_coordinate(x_values);
+		// do i need this line at all???
 		map.y_max++;
 		free(x_line);
 		x_line = get_next_line(fd);
 	}
+	//z_max_diff built in missing!
 	printf("to long\n");
 	// here its to slow
 	free_split(x_values);
@@ -81,19 +81,19 @@ t_map get_map_dimensions(char **argv)
 	return (map);
 }
 
-
 int change_camera_zdiv(int key, t_fdf *fdf)
 {
 	if (key == 65451)
 	{
-		fdf->map.camera.z_divisor += 10;
+		fdf->map.camera.z_divisor += 5;
 	}
 	else if (key == 65453)
 	{
-		fdf->map.camera.z_divisor -= 10;
+		fdf->map.camera.z_divisor -= 5;
 	}
+	//does this really make sense... for the -= , it kinda makes the map weird
 	if (key == 65307)
-		exit (0);
+		exit(0);
 	rendering(fdf);
 	printf("key: 	%d\n", key);
 	return (0);
@@ -102,7 +102,8 @@ int change_camera_zdiv(int key, t_fdf *fdf)
 void set_camera(t_map *map_ptr)
 {
 	map_ptr->camera.zoom = min(WIDTH / map_ptr->x_max / 2, HEIGHT / map_ptr->y_max / 2);
-	map_ptr->camera.z_divisor = 70;
+	//do i need to change this for Julia?
+	map_ptr->camera.z_divisor = 10;
 	// missing a value that makes all maps visible
 	// keyhook altitude change mit +/-
 }

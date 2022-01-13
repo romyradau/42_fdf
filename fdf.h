@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:38:32 by coder             #+#    #+#             */
-/*   Updated: 2022/01/09 13:09:22 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:00:23 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include <mlx.h>
 #include <mlx_int.h>
 #include <stdio.h>
-
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 
@@ -82,7 +81,6 @@ int     ft_hextoi(char *str);
 int     x_coordinate(char **line);
 int     change_camera_zdiv(int key, t_fdf *fdf);
 void    rendering(t_fdf *fdf);
-void	allTheFuckingSame(t_fdf *fdf);
-
+void    allTheFuckingSame(t_fdf *fdf);
 
 #endif
