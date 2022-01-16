@@ -6,11 +6,11 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/08 20:37:33 by rschleic          #+#    #+#              #
-#    Updated: 2021/07/08 20:38:33 by rschleic         ###   ########.fr        #
+#    Updated: 2022/01/16 12:58:58 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror -c
+CFLAGS = -Wall -Wextra -Werror -c -g -pg
 NAME = libft.a
 COMPILER = gcc
 SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c \

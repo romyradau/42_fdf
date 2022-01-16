@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/13 19:34:29 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/16 14:44:10 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_map get_map_dimensions(char **argv)
 	char * x_line;
 	char **x_values;
 
+	printf("getting max value\n");
 	fd = open(argv[1], O_RDONLY);
 	// i = 0;
 	x_line = get_next_line(fd);
@@ -57,10 +58,11 @@ t_map get_map_dimensions(char **argv)
 	map.x_max = x_coordinate(x_values);
 	map.y_max = 0;
 	// free
+	printf("getting max value in loop\n");
 	while (x_line) // error handling leere map - incomplete
 	{
-		free_split(x_values);
-		x_values = ft_split(x_line, ' ');
+		// free_split(x_values);
+		// x_values = ft_split(x_line, ' ');
 		if (map.x_max != x_coordinate(x_values))
 		{
 			write(2, "error\n", 6);
@@ -74,7 +76,7 @@ t_map get_map_dimensions(char **argv)
 		x_line = get_next_line(fd);
 	}
 	//z_max_diff built in missing!
-	printf("to long\n");
+	printf("setting max value\n");
 	// here its to slow
 	free_split(x_values);
 	close(fd);
@@ -95,7 +97,6 @@ int change_camera_zdiv(int key, t_fdf *fdf)
 	if (key == 65307)
 		exit(0);
 	rendering(fdf);
-	printf("key: 	%d\n", key);
 	return (0);
 }
 // map.points noch bestimmen aber wo?
@@ -119,7 +120,9 @@ void set_values(int y, char *line, t_map *map_ptr)
 	split_ptr = ft_split(line, ' ');
 	while (split_ptr[x]) // stimmt das hier oder <= ??
 	{
-		printf("set values\n");
+		if (x > map_ptr->x_max) {
+			// error because too many
+		}
 		map_ptr->points[y][x].x = x;
 		map_ptr->points[y][x].y = y;
 		map_ptr->points[y][x].z = ft_atoi(split_ptr[x]);
@@ -131,6 +134,9 @@ void set_values(int y, char *line, t_map *map_ptr)
 		// tt wert fehlt?
 		x++;
 	}
+	if (x != map->ptr.x_max) {
+		// error because too few 
+	}
 	free_split(split_ptr);
 }
 
@@ -140,16 +146,25 @@ t_map set_map(char **argv)
 	int   fd;
 	char *line;
 	t_map map;
+	t_point **tmp;
 
-	map = get_map_dimensions(argv);
-	map.points = malloc(sizeof(t_point *) * map.y_max); // pointer auf die y reihen
 	// doublepointer braucht platz für y viele relief pointer
 	y = 0;
 	fd = open(argv[1], O_RDONLY);
 	line = get_next_line(fd);
-	while (y < map.y_max)
+	ft_bzero(&map, sizeof(t_map));
+	map.x_max = ft_ptr_quantity(line, ' ') + 1;
+	// amount of spaces + 1 because they are *separated by spaces*
+	// x_max = count amount of commas 
+	while (line)
 	// or y <= general explanation, im having such a hard time to get those +- 1shit
 	{
+		tmp = ft_calloc(sizeof(t_point *) * (y + 2));
+		// allocate +2 as we need one for the next line, and one for the terminating null character.
+		ft_memcpy(tmp, map.points, sizeof(t_point *) * y);
+		free(map.points);
+		map.points = tmp;
+		
 		map.points[y] = malloc(sizeof(t_point) * (map.x_max + 1));
 		// hier hat eine + 1 gefehlt aber warum - auf jeden Fall für '\0' ?!
 		// printf("map[y]: %p\n", map.points[y]);
@@ -159,6 +174,19 @@ t_map set_map(char **argv)
 		line = get_next_line(fd);
 		y++;
 	}
+	// map.points = NULL
+	// tmp = undefined
+	
+	// tmp = allocation #1 -> 2 t_points
+	// copy 0 from map.points to tmp
+	// free map.points
+	// set map.points to tmp
+	
+	// map.points = allocation #1 -> 2 t_points
+	// tmp = allocation #2 -> 3 t_points
+	// copy 1 from map.points to tmp
+	// free map.points
+	// set map.points to tmp
 	write(1, "hallo\n", 6);
 	set_camera(&map);
 	return (map);

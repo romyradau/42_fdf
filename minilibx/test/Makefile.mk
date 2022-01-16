@@ -6,7 +6,7 @@ INCLIB=$(INC)/../lib
 
 CC=gcc
 
-CFLAGS= -I$(INC) -O3 -I.. -lbsd
+CFLAGS= -I$(INC) -O3 -I.. -lbsd -g -pg
 
 NAME= mlx-test
 SRC = main.c

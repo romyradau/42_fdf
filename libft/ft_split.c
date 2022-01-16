@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 10:39:46 by rschleic          #+#    #+#             */
-/*   Updated: 2021/07/23 09:41:02 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/16 13:22:17 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ char	**ft_split(char const *s, char c)
 	size_t	index;
 	size_t	start;
 	size_t	end;
+	size_t	ptr_quanity;
 
 	index = 0;
 	start = 0;
 	if (s == NULL)
 		return (NULL);
-	ptrptr = malloc((ft_ptr_quantity(s, c) + 1) * sizeof(char *));
+	ptr_quanity = ft_ptr_quantity(s, c);
+	ptrptr = malloc((ptr_quanity + 1) * sizeof(char *));
 	if (ptrptr == NULL)
 		return (NULL);
-	while (index != ft_ptr_quantity(s, c))
+	while (index != ptr_quanity)
 	{
 		while (s[start] != '\0' && s[start] == c)
 			start++;

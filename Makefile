@@ -6,12 +6,12 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2022/01/09 10:35:27 by rschleic         ###   ########.fr        #
+#    Updated: 2022/01/16 12:58:47 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -pg -g
 MEM = -fsanitize=address -g 
 NAME = fdf
 SRC = 0_main.c 1_input.c 2_input_help.c 3_3dto2d.c 4_rotations.c
