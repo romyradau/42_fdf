@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/16 14:44:10 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/17 18:48:10 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int change_camera_zdiv(int key, t_fdf *fdf)
 // map.points noch bestimmen aber wo?
 void set_camera(t_map *map_ptr)
 {
-	map_ptr->camera.zoom = min(WIDTH / map_ptr->x_max / 2, HEIGHT / map_ptr->y_max / 2);
+	map_ptr->camera.zoom = min(WIDTH / (map_ptr->x_max - 1) / 2, HEIGHT / (map_ptr->y_max - 1) / 2);
 	//do i need to change this for Julia?
 	map_ptr->camera.z_divisor = 10;
 	// missing a value that makes all maps visible
@@ -120,9 +120,11 @@ void set_values(int y, char *line, t_map *map_ptr)
 	split_ptr = ft_split(line, ' ');
 	while (split_ptr[x]) // stimmt das hier oder <= ??
 	{
-		if (x > map_ptr->x_max) {
-			// error because too many
+		if (x > map_ptr->x_max - 1) {
+			write(2, "error\n", 6);
+			exit(0);
 		}
+		//don't i need to free here already? even though "exit"?
 		map_ptr->points[y][x].x = x;
 		map_ptr->points[y][x].y = y;
 		map_ptr->points[y][x].z = ft_atoi(split_ptr[x]);
@@ -134,8 +136,12 @@ void set_values(int y, char *line, t_map *map_ptr)
 		// tt wert fehlt?
 		x++;
 	}
-	if (x != map->ptr.x_max) {
-		// error because too few 
+	if (x != map_ptr->x_max - 1)
+	//fixed it cause x_max was 1 to much due to the +1 prev
+	 {
+		printf("x_max	%d\nx	%d\n", map_ptr->x_max, x);
+		write(2, "error\n", 6);
+		exit(0);
 	}
 	free_split(split_ptr);
 }
@@ -147,8 +153,8 @@ t_map set_map(char **argv)
 	char *line;
 	t_map map;
 	t_point **tmp;
+	//pointer to a single struct
 
-	// doublepointer braucht platz für y viele relief pointer
 	y = 0;
 	fd = open(argv[1], O_RDONLY);
 	line = get_next_line(fd);
@@ -159,8 +165,8 @@ t_map set_map(char **argv)
 	while (line)
 	// or y <= general explanation, im having such a hard time to get those +- 1shit
 	{
-		tmp = ft_calloc(sizeof(t_point *) * (y + 2));
-		// allocate +2 as we need one for the next line, and one for the terminating null character.
+		tmp = ft_calloc(y + 2, sizeof(t_point *));
+		//had to change the syntax here
 		ft_memcpy(tmp, map.points, sizeof(t_point *) * y);
 		free(map.points);
 		map.points = tmp;
