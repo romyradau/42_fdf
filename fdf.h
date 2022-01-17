@@ -6,14 +6,14 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:38:32 by coder             #+#    #+#             */
-/*   Updated: 2022/01/10 13:00:23 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/17 21:12:54 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 #define FDF_H
-#define HEIGHT 1260
-#define WIDTH 800
+#define HEIGHT 1080
+#define WIDTH 1920
 
 #include "./gnl/get_next_line.h"
 #include "./libft/libft.h"

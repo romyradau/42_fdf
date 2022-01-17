@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/17 18:48:10 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/17 22:17:38 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,9 @@ t_map get_map_dimensions(char **argv)
 int change_camera_zdiv(int key, t_fdf *fdf)
 {
 	if (key == 65451)
-	{
-		fdf->map.camera.z_divisor += 5;
-	}
-	else if (key == 65453)
-	{
-		fdf->map.camera.z_divisor -= 5;
-	}
+		fdf->map.camera.z_divisor *= 1.1;
+	else if (key == 65453 && (fdf->map.camera.z_divisor * 0.8 > 0))
+		fdf->map.camera.z_divisor *= 0.8;
 	//does this really make sense... for the -= , it kinda makes the map weird
 	if (key == 65307)
 		exit(0);
@@ -102,7 +98,7 @@ int change_camera_zdiv(int key, t_fdf *fdf)
 // map.points noch bestimmen aber wo?
 void set_camera(t_map *map_ptr)
 {
-	map_ptr->camera.zoom = min(WIDTH / (map_ptr->x_max - 1) / 2, HEIGHT / (map_ptr->y_max - 1) / 2);
+	map_ptr->camera.zoom = min(WIDTH / (map_ptr->x_max) / 1.5, HEIGHT / (map_ptr->y_max) / 1.5);
 	//do i need to change this for Julia?
 	map_ptr->camera.z_divisor = 10;
 	// missing a value that makes all maps visible
@@ -120,7 +116,7 @@ void set_values(int y, char *line, t_map *map_ptr)
 	split_ptr = ft_split(line, ' ');
 	while (split_ptr[x]) // stimmt das hier oder <= ??
 	{
-		if (x > map_ptr->x_max - 1) {
+		if (x > map_ptr->x_max) {
 			write(2, "error\n", 6);
 			exit(0);
 		}
@@ -136,10 +132,9 @@ void set_values(int y, char *line, t_map *map_ptr)
 		// tt wert fehlt?
 		x++;
 	}
-	if (x != map_ptr->x_max - 1)
+	if (x != map_ptr->x_max)
 	//fixed it cause x_max was 1 to much due to the +1 prev
 	 {
-		printf("x_max	%d\nx	%d\n", map_ptr->x_max, x);
 		write(2, "error\n", 6);
 		exit(0);
 	}
@@ -159,9 +154,8 @@ t_map set_map(char **argv)
 	fd = open(argv[1], O_RDONLY);
 	line = get_next_line(fd);
 	ft_bzero(&map, sizeof(t_map));
-	map.x_max = ft_ptr_quantity(line, ' ') + 1;
-	// amount of spaces + 1 because they are *separated by spaces*
-	// x_max = count amount of commas 
+	map.x_max = ft_ptr_quantity(line, ' ');
+	// x_max = count amount of spaces
 	while (line)
 	// or y <= general explanation, im having such a hard time to get those +- 1shit
 	{
@@ -171,7 +165,7 @@ t_map set_map(char **argv)
 		free(map.points);
 		map.points = tmp;
 		
-		map.points[y] = malloc(sizeof(t_point) * (map.x_max + 1));
+		map.points[y] = ft_calloc(map.x_max + 1, sizeof(t_point));
 		// hier hat eine + 1 gefehlt aber warum - auf jeden Fall für '\0' ?!
 		// printf("map[y]: %p\n", map.points[y]);
 		// printf("x_max: %d\n", map.x_max);
@@ -180,6 +174,18 @@ t_map set_map(char **argv)
 		line = get_next_line(fd);
 		y++;
 	}
+
+	map.y_max = y;
+	
+	// printf("y_max = %d, x_max = %d\n", map.y_max, map.x_max);
+	// for (int i = 0; i < map.y_max; i++) {
+	// 	for (int j = 0; j < map.x_max; j++) {
+	// 		printf("%2d ", map.points[i][j].z);
+	// 	}
+	// 	
+	// 	printf("\n");
+	// }
+	
 	// map.points = NULL
 	// tmp = undefined
 	
