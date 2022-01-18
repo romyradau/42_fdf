@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:38:32 by coder             #+#    #+#             */
-/*   Updated: 2022/01/17 21:12:54 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:50:52 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <fcntl.h>
 #include <math.h>
 #include <mlx.h>
-#include <mlx_int.h>
 #include <stdio.h>
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))

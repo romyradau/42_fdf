@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/17 22:17:38 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/18 21:34:55 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ t_map get_map_dimensions(char **argv)
 
 int change_camera_zdiv(int key, t_fdf *fdf)
 {
-	if (key == 65451)
+	if (key == 78)
 		fdf->map.camera.z_divisor *= 1.1;
-	else if (key == 65453 && (fdf->map.camera.z_divisor * 0.8 > 0))
+	else if (key == 69 && (fdf->map.camera.z_divisor * 0.8 > 0))
 		fdf->map.camera.z_divisor *= 0.8;
 	//does this really make sense... for the -= , it kinda makes the map weird
-	if (key == 65307)
+	if (key == 53)
 		exit(0);
 	rendering(fdf);
 	return (0);
@@ -135,7 +135,8 @@ void set_values(int y, char *line, t_map *map_ptr)
 	if (x != map_ptr->x_max)
 	//fixed it cause x_max was 1 to much due to the +1 prev
 	 {
-		write(2, "error\n", 6);
+		printf("x	%d\n x_max %d\n", x, map_ptr->x_max);
+		write(2, "Error\n", 6);
 		exit(0);
 	}
 	free_split(split_ptr);
