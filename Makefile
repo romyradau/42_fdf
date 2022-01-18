@@ -6,7 +6,7 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2022/01/18 21:30:34 by rschleic         ###   ########.fr        #
+#    Updated: 2022/01/18 22:42:18 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,19 @@ OBJ = $(addprefix $(OBJ_DIR), $(patsubst %.c, %.o, $(SRC)))
 OBJ_DIR = obj/
 #obj is all the src files but with an .o
 LIBFT = libft/libft.a
-MINILIBX = minilibx_macos/libmlx.a
+MINILIBX_DIR = minilibx_macos/
+MINILIBX = $(MINILIBX_DIR)libmlx.a
 #GNL = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 MLX = -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
 #MLX = -Lminilibx -lmlx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lz
 #MLXTEST = -Lminilibx -lmlx -L/usr/lib -lXext
 #OBJ = %.o
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	MINILIBX_DIR = minilibx/
+	MINILIBX = $(MINILIBX_DIR)libmlx.a
+endif
+
 
 all : $(NAME)
 
@@ -45,17 +52,17 @@ $(LIBFT) :
 	make -C libft
 	
 $(MINILIBX) :
-	make -sC minilibx_macos
+	make -sC $(MINILIBX_DIR)
 #tries to make in the specified folder
 
 
 clean : 
 	make -C libft clean
-	make -sC minilibx_macos clean
+	make -sC $(MINILIBX_DIR) clean
 	$(RM) -rf $(OBJ_DIR)
-fclean : 
+	
+fclean : clean
 	make -C libft fclean
-	make -sC minilibx_macos clean
 	$(RM) -f fdf
 
 re : fclean all
