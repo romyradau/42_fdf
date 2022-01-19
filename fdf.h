@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:38:32 by coder             #+#    #+#             */
-/*   Updated: 2022/01/18 19:50:52 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/19 22:09:18 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <stdio.h>
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
+//need to create a function for those
 
 typedef struct s_point
 {
@@ -69,7 +70,6 @@ typedef struct s_fdf
 } t_fdf;
 
 int     no_valid_input(char **argv);
-t_map   get_map_dimensions(char **argv);
 t_map   set_map(char **argv);
 void    draw_line(t_point start, t_point end, t_data *img);
 t_point dimensions(t_point point, t_map *map);
@@ -80,6 +80,6 @@ int     ft_hextoi(char *str);
 int     x_coordinate(char **line);
 int     change_camera_zdiv(int key, t_fdf *fdf);
 void    rendering(t_fdf *fdf);
-void    allTheFuckingSame(t_fdf *fdf);
+void    allBlack(t_fdf *fdf);
 
 #endif

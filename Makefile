@@ -6,7 +6,7 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2022/01/18 22:42:18 by rschleic         ###   ########.fr        #
+#    Updated: 2022/01/19 22:27:12 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,39 +20,32 @@ OBJ_DIR = obj/
 LIBFT = libft/libft.a
 MINILIBX_DIR = minilibx_macos/
 MINILIBX = $(MINILIBX_DIR)libmlx.a
-#GNL = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 MLX = -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
-#MLX = -Lminilibx -lmlx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lz
-#MLXTEST = -Lminilibx -lmlx -L/usr/lib -lXext
-#OBJ = %.o
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	MINILIBX_DIR = minilibx/
 	MINILIBX = $(MINILIBX_DIR)libmlx.a
 endif
-
+#just for Linux
 
 all : $(NAME)
 
-#$(NAME): $(OBJ)
-#	$(CC) -Lminilibx -lminilibx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lz $(OBJ) -o $(NAME)
 
-	
 $(OBJ_DIR)%.o : %.c
-	mkdir -p $$(dirname $@)
-	$(CC) $(FLAGS) -c $< -o $@
-	
-#$(OBJ): %.c - 
-#	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx -O3 -c $< -o $@
+	@mkdir -p $$(dirname $@) > /dev/null
+	@$(CC) $(FLAGS) -c $< -o $@ > /dev/null
+
 
 $(NAME) : $(OBJ) $(LIBFT) $(MINILIBX)
 	$(CC) $(FLAGS) $(OBJ) $(MLX) $(LIBFT) -o $(NAME)
 
-$(LIBFT) : 
-	make -C libft
-	
+
+$(LIBFT) :
+	@make -sC libft > /dev/null
+
+
 $(MINILIBX) :
-	make -sC $(MINILIBX_DIR)
+	make -sC $(MINILIBX_DIR) > /dev/null
 #tries to make in the specified folder
 
 

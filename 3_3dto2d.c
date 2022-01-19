@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 15:15:23 by coder             #+#    #+#             */
-/*   Updated: 2022/01/17 21:32:25 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/19 22:22:42 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,18 @@ t_point dimensions(t_point point, t_map *map)
 {
 	point.x *= map->camera.zoom;
 	point.y *= map->camera.zoom;
+	// TODO maybe key bindings to fit on any window
 	point.z *= map->camera.zoom / map->camera.z_divisor;
-	//what happens here exactly?
-	//how does the camera.z divisor really work?
 	point.x -= (map->x_max * map->camera.zoom) / 2;
 	point.y -= (map->y_max * map->camera.zoom) / 2;
-	//and than what happens here?
-	// rotate_x(&(point.z), &(point.y), map->camera.alpha);
-	// rotate_y(&(point.x), &(point.z), map->camera.beta);
-	// rotate_z(&(point.x), &(point.y), map->camera.gamma);
-	// z rotation to get rid of it
-	//if i comment it out nothing bad happens
 	iso_projection(&(point.x), &(point.y), point.z);
-	// z no change bc it just gets ignored anyways
 	point.x += WIDTH / 2 + map->camera.x_pos;
 	point.y += HEIGHT / 2 + map->camera.y_pos;
 	return point;
 }
-// needs to be applied only once
-// b
+/*
+	scaling = zoom is for multiplying the points by a fixed value
+	center the points, to draw from the middle
+*/
+
+

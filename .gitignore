@@ -2,3 +2,5 @@
 *.a
 a.out
 fdf_story
+.clang-format
+workspace.code-workspace
