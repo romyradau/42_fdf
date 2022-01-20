@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 15:48:26 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/19 21:52:30 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/20 17:47:46 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	search(char *s, char c)
 char	*output_function(char	**pot, ssize_t bytes)
 {
 	char	*output;
+
 	if (*pot)
 	{
 		if (**pot == '\0' && bytes <= 0)
@@ -65,7 +66,6 @@ char	*output_extension(char	**pot)
 	{
 		output = my_substr(*pot, 0, 1);
 	}
-		
 	else
 	{
 		output = my_substr(*pot, 0, search(*pot, '\n') + 1);

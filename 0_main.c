@@ -6,120 +6,75 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2022/01/19 22:02:11 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/20 22:03:38 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	exec_failed(char *s)
 {
-	char *dst;
-
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		dst = data->addr + (y * data->line_length + x * (data->bit_per_pixel / 8));
-		*(unsigned int *) dst = color;
-	}
+	ft_putendl_fd(s, 2);
+	exit(1);
 }
 
-void draw_line(t_point start, t_point end, t_data *img)
+int	no_valid_input(char **argv)
 {
-	t_point	diff;
-	t_point	direction;
-	t_point	cursor;
-	int		left_over[2];
+	int	fd;
 
-	diff.x = abs(start.x - end.x);
-	diff.y = abs(start.y - end.y);
-	if (start.x < end.x)
-		direction.x = 1;
-	else
-		direction.x = -1;
-	if (start.y < end.y)
-		direction.y = 1;
-	else
-		direction.y = -1;
-	cursor = start;
-	left_over[0] = diff.x - diff.y;
-
-	while (cursor.x != end.x || cursor.y != end.y)
-	{
-		my_mlx_pixel_put(img, cursor.x, cursor.y, cursor.color);
-		left_over[1] = left_over[0] * 2;
-		if (left_over[1] > -diff.y)
-		{
-			left_over[0] -= diff.y;
-			cursor.x += direction.x;
-		}
-		if (left_over[1] < diff.x)
-		{
-			left_over[0] += diff.x;
-			cursor.y += direction.y;
-		}
-	}
-}
-//watch a visual video for Bresenheim Algo!
-
-
-void allBlack(t_fdf *fdf)
-{
-	int x;
-	int y;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			my_mlx_pixel_put(&fdf->img, x, y, 0x00000);
-			x++;
-		}
-		y++;
-	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+		return (write(2, "error\n", 6));
+	close(fd);
+	if (!ft_strnstr(&argv[1][ft_strlen(argv[1]) - ft_strlen(".fdf")],
+		".fdf", ft_strlen(".fdf")))
+		return (write(2, "error\n", 6));
+	return (0);
 }
 
-void rendering(t_fdf *fdf)
+int	key_impl(int key, t_fdf *fdf)
 {
-	int i;
-	int j;
-	
-	i = 0;
-	j = 0;
-	allBlack(fdf);
-	while (i < fdf->map.y_max)
-	{
-		j = 0;
-		while (j < fdf->map.x_max)
-		{
-			if (j != fdf->map.x_max - 1)
-				draw_line(dimensions(fdf->map.points[i][j], &fdf->map),
-				          dimensions(fdf->map.points[i][j + 1], &fdf->map), &fdf->img);
-			if (i != fdf->map.y_max - 1)
-				draw_line(dimensions(fdf->map.points[i][j], &fdf->map),
-				          dimensions(fdf->map.points[i + 1][j], &fdf->map), &fdf->img);
-			j++;
-		}
-		i++;
-	}
-	mlx_put_image_to_window(fdf->mlx, fdf->mlx_win, fdf->img.img, 0, 0);
+	if (key == 78)
+		fdf->map.camera.z_divisor *= 1.1;
+	else if (key == 69 && (fdf->map.camera.z_divisor * 0.8 > 0))
+		fdf->map.camera.z_divisor *= 0.8;
+	else if (key == 126)
+		fdf->map.camera.zoom *= 2;
+	else if (key == 125)
+		fdf->map.camera.zoom *= 0.5;
+	else if (key == 2)
+		fdf->map.camera.x_pos += WIDTH / 10;
+	else if (key == 0)
+		fdf->map.camera.x_pos -= WIDTH / 10;
+	else if (key == 1)
+		fdf->map.camera.y_pos += HEIGHT / 10;
+	else if (key == 13)
+		fdf->map.camera.y_pos -= HEIGHT / 10;
+	else if (key == 53)
+		exit(0);
+	rendering(fdf);
+	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_fdf fdf;
+	t_fdf	fdf;
 
 	if (argc != 2 || no_valid_input(argv))
-		exit(0);
+		exit(1);
 	fdf.map = set_map(argv);
 	fdf.mlx = mlx_init();
+	if (fdf.mlx == NULL)
+		exec_failed("ERROR: mlx_init failed");
 	fdf.mlx_win = mlx_new_window(fdf.mlx, WIDTH, HEIGHT, "FreiheitDenFormen!");
+	if (fdf.mlx_win == NULL)
+		exec_failed("ERROR: mlx_win failed");
 	fdf.img.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
+	if (fdf.img.img == NULL)
+		exec_failed("ERROR: mlx_img failed");
 	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bit_per_pixel,
-	                                 &fdf.img.line_length, &fdf.img.endian);
+			&fdf.img.line_length, &fdf.img.endian);
 	rendering(&fdf);
-	mlx_key_hook(fdf.mlx_win, change_camera_zdiv, &fdf);
+	mlx_key_hook(fdf.mlx_win, key_impl, &fdf);
 	mlx_loop(fdf.mlx);
-	// do i need to free anything before loop can be closed?
 }

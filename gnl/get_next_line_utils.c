@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 20:16:54 by rschleic          #+#    #+#             */
-/*   Updated: 2021/12/13 13:32:11 by coder            ###   ########.fr       */
+/*   Updated: 2022/01/20 20:21:24 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@ size_t	my_strlen(size_t start, char *str)
 	return (start);
 }
 
-void    *my_calloc(size_t count, size_t size)
+void	*my_calloc(size_t count, size_t size)
 {
-    char    *ptr;
-    size_t  counter;
-    counter = 0;
+	char	*ptr;
+	size_t	counter;
 
-    count *= size;
-    ptr = malloc(count);
-    if (ptr == NULL)
-        return (NULL);
-    while (counter != count)
-    {
-        ptr[counter] = 0;
-        counter++;
-    }
-    return (ptr);
+	counter = 0;
+	count *= size;
+	ptr = malloc(count);
+	if (ptr == NULL)
+		return (NULL);
+	while (counter != count)
+	{
+		ptr[counter] = 0;
+		counter++;
+	}
+	return (ptr);
 }
 
-char	*my_strjoin(char	*pot, char	*buf)
+char	*my_strjoin(char *pot, char *buf)
 {
 	size_t	len;
 	char	*newstr;
@@ -64,7 +64,7 @@ char	*my_strjoin(char	*pot, char	*buf)
 	return (newstr);
 }
 
-char	*my_substr(char	*s, unsigned int start, size_t len)
+char	*my_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	size_t	j;

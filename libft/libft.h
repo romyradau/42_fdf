@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 16:28:30 by rschleic          #+#    #+#             */
+/*   Updated: 2022/01/20 16:36:58 by rschleic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -45,6 +57,15 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+typedef struct s_split
+{
+	char	**ptrptr;
+	size_t	index;
+	size_t	start;
+	size_t	end;
+	size_t	ptr_quanity;
+}	t_split;
+
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list	**lst, t_list	*new);
 void	ft_lstclear(t_list **lst, void (*del)(void	*));

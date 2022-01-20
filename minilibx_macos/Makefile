@@ -7,6 +7,12 @@ OBJ1=$(SRC:.c=.o)
 OBJ=$(OBJ1:.m=.o)
 CFLAGS+=-O2
 
+%.o : %.c
+	@cc -O2 -w -DSTRINGPUTX11   -c -o $@ $<
+
+%.o : %.m
+	@cc -O2 -w -DSTRINGPUTX11   -c -o $@ $<
+
 all: $(NOM)
 
 $(NOM):	$(OBJ)

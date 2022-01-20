@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 10:39:46 by rschleic          #+#    #+#             */
-/*   Updated: 2022/01/16 13:22:17 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/20 20:03:56 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,30 @@ size_t	ft_ptr_quantity(char const *s, char c);
 
 char	**ft_split(char const *s, char c)
 {
-	char	**ptrptr;
-	size_t	index;
-	size_t	start;
-	size_t	end;
-	size_t	ptr_quanity;
+	t_split	split;
 
-	index = 0;
-	start = 0;
+	split.index = 0;
+	split.start = 0;
 	if (s == NULL)
 		return (NULL);
-	ptr_quanity = ft_ptr_quantity(s, c);
-	ptrptr = malloc((ptr_quanity + 1) * sizeof(char *));
-	if (ptrptr == NULL)
+	split.ptr_quanity = ft_ptr_quantity(s, c);
+	split.ptrptr = ft_calloc((split.ptr_quanity + 1), sizeof(char *));
+	if (split.ptrptr == NULL)
 		return (NULL);
-	while (index != ptr_quanity)
+	while (split.index != split.ptr_quanity)
 	{
-		while (s[start] != '\0' && s[start] == c)
-			start++;
-		end = start;
-		while (s[end] != '\0' && s[end] != c)
-			end++;
-		ptrptr[index] = ft_substr(s, start, (end - start));
-		start = end;
-		index++;
+		while (s[split.start] != '\0' && s[split.start] == c)
+			split.start++;
+		split.end = split.start;
+		while (s[split.end] != '\0' && s[split.end] != c)
+			split.end++;
+		split.ptrptr[split.index] = ft_substr(s, split.start,
+				(split.end - split.start));
+		split.start = split.end;
+		split.index++;
 	}
-	ptrptr[index] = NULL;
-	return (ptrptr);
+	split.ptrptr[split.index] = NULL;
+	return (split.ptrptr);
 }
 
 size_t	ft_ptr_quantity(char const *s, char c)

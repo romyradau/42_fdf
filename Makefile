@@ -5,15 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/11 16:36:46 by coder             #+#    #+#              #
-#    Updated: 2022/01/19 22:27:12 by rschleic         ###   ########.fr        #
+#    Created: 2022/01/20 21:41:56 by rschleic          #+#    #+#              #
+#    Updated: 2022/01/20 21:41:59 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 NAME = fdf
-SRC = 0_main.c 1_input.c 2_input_help.c 3_3dto2d.c 4_rotations.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
+SRC = 0_main.c 1_input.c 2_input_help.c 3_3dto2d.c 4_rendering.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 OBJ = $(addprefix $(OBJ_DIR), $(patsubst %.c, %.o, $(SRC)))
 OBJ_DIR = obj/
 #obj is all the src files but with an .o
@@ -47,7 +48,6 @@ $(LIBFT) :
 $(MINILIBX) :
 	make -sC $(MINILIBX_DIR) > /dev/null
 #tries to make in the specified folder
-
 
 clean : 
 	make -C libft clean
