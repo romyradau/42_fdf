@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:39:39 by coder             #+#    #+#             */
-/*   Updated: 2022/01/20 22:03:38 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/21 13:09:28 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	no_valid_input(char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (write(2, "error\n", 6));
+		return (1);
 	close(fd);
 	if (!ft_strnstr(&argv[1][ft_strlen(argv[1]) - ft_strlen(".fdf")],
 		".fdf", ft_strlen(".fdf")))
-		return (write(2, "error\n", 6));
+		return (1);
 	return (0);
 }
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 	t_fdf	fdf;
 
 	if (argc != 2 || no_valid_input(argv))
-		exit(1);
+		exec_failed("ERROR: incorrect parameters");
 	fdf.map = set_map(argv);
 	fdf.mlx = mlx_init();
 	if (fdf.mlx == NULL)

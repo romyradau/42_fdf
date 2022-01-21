@@ -6,7 +6,7 @@
 /*   By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 16:38:32 by coder             #+#    #+#             */
-/*   Updated: 2022/01/20 22:02:38 by rschleic         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:18:03 by rschleic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "./libft/libft.h"
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include "./minilibx_macos/mlx.h"
 # include <stdio.h>
 
 typedef struct s_point
