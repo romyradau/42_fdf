@@ -6,7 +6,7 @@
 #    By: rschleic <rschleic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 21:41:56 by rschleic          #+#    #+#              #
-#    Updated: 2022/01/20 21:41:59 by rschleic         ###   ########.fr        #
+#    Updated: 2022/01/23 20:02:02 by rschleic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,18 +22,19 @@ LIBFT = libft/libft.a
 MINILIBX_DIR = minilibx_macos/
 MINILIBX = $(MINILIBX_DIR)libmlx.a
 MLX = -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Linux)
-	MINILIBX_DIR = minilibx/
-	MINILIBX = $(MINILIBX_DIR)libmlx.a
-endif
-#just for Linux
+
 
 all : $(NAME)
 
 
 $(OBJ_DIR)%.o : %.c
+#if that obj_dir%.o file does not exist -> execute the code
+#compares the .o file creation blabla with the .c file creation
+#recompiles only after .c files time changed %.o : %.c
+	@echo $@ $<
 	@mkdir -p $$(dirname $@) > /dev/null
+#the $@ is like a Variable and gets replaced by the lhs\
+#-p makes parent directories
 	@$(CC) $(FLAGS) -c $< -o $@ > /dev/null
 
 
