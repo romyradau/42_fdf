@@ -23,6 +23,11 @@ MINILIBX_DIR = minilibx_macos/
 MINILIBX = $(MINILIBX_DIR)libmlx.a
 MLX = -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
 
+UNAME = $(shell uname)
+ifeq ($(UNAME),Linux)
+	MINILIBX_DIR = minilibx/
+	MLX = -Lminilibx -lmlx -L/usr/lib -Iminilibx -lXext -lX11 -lm -lz
+endif
 
 all : $(NAME)
 
