@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 	fdf.mlx = mlx_init();
 	if (fdf.mlx == NULL)
 		exec_failed("ERROR: mlx_init failed");
-	fdf.mlx_win = mlx_new_window(fdf.mlx, WIDTH, HEIGHT, "FreiheitDenFormen!");
+	fdf.mlx_win = mlx_new_window(fdf.mlx, WIDTH, HEIGHT, "Happy Valentines :)");
 	if (fdf.mlx_win == NULL)
 		exec_failed("ERROR: mlx_win failed");
 	fdf.img.img = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
